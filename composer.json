@@ -1,9 +1,13 @@
 {
-    "name": "zizaco/entrust",
+    "name": "mirageoscience/entrust",
     "description": "This package provides a flexible way to add Role-based Permissions to Laravel 4",
-    "keywords": ["laravel","illuminate","auth","roles"],
+    "keywords": ["laravel","illuminate","auth","roles","projects"],
     "license": "MIT",
     "authors": [
+        {
+            "name": "Mira Geoscience",
+            "email": "support@mirageoscience"
+        },
         {
             "name": "Zizaco Zizuini",
             "email": "zizaco@gmail.com"
