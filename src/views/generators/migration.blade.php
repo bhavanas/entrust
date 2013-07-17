@@ -15,21 +15,26 @@ class EntrustSetupTables extends Migration {
         Schema::create('roles', function($table)
         {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('permissions');
+            $table->boolean('active');
             $table->timestamps();
+            $table->softDeletes();
         });
 
-        // Creates the assigned_roles (Many-to-Many relation) table
-        Schema::create('assigned_roles', function($table)
+        // Creates the assigned_roles for each project(Many-to-Many relation) table
+        Schema::create('assigned_roles_in_project', function($table)
         {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->index('user_id');
             $table->integer('role_id')->unsigned();
             $table->index('role_id');
+            $table->integer('project_id')->unsigned();
+            $table->index('project_id');
             $table->foreign('user_id')->references('id')->on('users'); // assumes a users table
             $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('project_id')->references('id')->on('projects'); // assumes a projects table
         });
 
         // Creates the permissions table
