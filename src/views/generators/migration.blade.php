@@ -46,6 +46,26 @@ class EntrustSetupTables extends Migration {
             $table->timestamps();
         });
 
+        // Creates the projects table
+        Schema::create('projects', function($table)
+        {
+            $table->increments('id');
+            $table->string('name')->unique();
+            $table->text('desc')->nullable();
+            $table->boolean('active');
+            $table->integer('created_by');
+            $table->integer('updated_by')->nullable();
+            $table->integer('deleted_by')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+
+            // Foreign Keys
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->foreign('updated_by')->references('id')->on('users');
+            $table->foreign('deleted_by')->references('id')->on('users');
+        });
+
+
         // Creates the permission_role (Many-to-Many relation) table
         Schema::create('permission_role', function($table)
         {
