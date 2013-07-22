@@ -26,7 +26,7 @@ class EntrustRole extends Ardent
      */
     public function users()
     {
-        return $this->belongsToMany('User', 'assigned_roles');
+        return $this->belongsToMany('User', 'assigned_roles_in_project');
     }
 
     /**
