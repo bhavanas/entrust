@@ -13,6 +13,35 @@ trait HasRole
     }
 
     /**
+     * Many-to-Many relations with Projects
+     */
+    public function projects()
+    {
+        return $this->belongsToMany('Project', 'assigned_roles_in_project');
+    }
+
+    /**
+    *   \brief inProject
+    *
+    *       Checks if the user belongs to a project by its name
+    *
+    *   \author Salvatore D'Agostino Mira Geoscience Ltd
+    *   \date  23-07-2013
+    *   \param projectName   (STRING)   Project name
+    *
+    *   \return (BOOL)
+    **/
+    public function inProject($projectName)
+    {
+        foreach ($this->projects as $project) {
+            if ($project->name == $projectName) {
+                return true;
+            }
+        }
+        return false;
+    }// END function inProject
+
+    /**
      * Checks if the user has a Role by its name
      *
      * @param string $name Role name.
