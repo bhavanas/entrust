@@ -25,11 +25,11 @@ trait HasRole
     *
     *       Checks if the user belongs to a project by its name
     *
-    *   \author Salvatore D'Agostino Mira Geoscience Ltd
-    *   \date  23-07-2013
-    *   \param projectName   (STRING)   Project name
+    *   @author Salvatore D'Agostino Mira Geoscience Ltd
+    *   @date  23-07-2013
+    *   @param projectName   (STRING)   Project name
     *
-    *   \return (BOOL)
+    *   @return (BOOL)
     **/
     public function inProject($projectName)
     {
