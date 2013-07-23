@@ -134,11 +134,13 @@ trait HasRole
      *
      * @param mixed $role
      *
+     * @param mixed $project
+     *
      * @access public
      *
      * @return void
      */
-    public function attachRole( $role )
+    public function attachRole( $role,$project )
     {
         if( is_object($role))
             $role = $role->getKey();
@@ -146,7 +148,13 @@ trait HasRole
         if( is_array($role))
             $role = $role['id'];
 
-        $this->roles()->attach( $role );
+        if( is_object($project))
+            $project = $project->getKey();
+
+        if( is_array($project))
+            $project = $project['id'];
+
+        $this->roles()->attach( $role, array("project_id" => $project) );
     }
 
     /**
