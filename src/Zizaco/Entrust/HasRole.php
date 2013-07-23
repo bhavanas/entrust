@@ -9,7 +9,7 @@ trait HasRole
      */
     public function roles()
     {
-        return $this->belongsToMany('Role', 'assigned_roles_in_project')->withPivot('project_id');
+        return $this->belongsToMany('Role', 'assigned_roles_in_project')->withPivot('project_id','user_id');
     }
 
     /**
@@ -17,7 +17,7 @@ trait HasRole
      */
     public function projects()
     {
-        return $this->belongsToMany('Project', 'assigned_roles_in_project')->withPivot('role_id');
+        return $this->belongsToMany('Project', 'assigned_roles_in_project')->withPivot('role_id','user_id');
     }
 
     /**
@@ -40,6 +40,34 @@ trait HasRole
         }
         return false;
     }// END function inProject
+
+    /**
+    *   \brief hasRoleOnProject
+    *
+    *       This function if the user has a Role on a Project
+    *
+    *   @author Salvatore D'Agostino Mira Geoscience Ltd
+    *   @date  23-07-2013
+    *   @param roleName    (STRING)   Role Name
+    *   @param projectName (STRING)   Project Name
+    *
+    *   @return (BOOL)
+    **/
+    public function hasRoleOnProject($roleName,$projectName)
+    {
+        foreach ($this->projects as $project) {
+            if ($project->name == $projectName) {
+                $roleId = $project->pivot->role_id;
+                $role = EntrustRole::find($roleId);
+                if ($role->name == $roleName) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }// END function hasRoleOnProject
 
     /**
      * Checks if the user has a Role by its name
