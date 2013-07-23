@@ -9,7 +9,7 @@ trait HasRole
      */
     public function roles()
     {
-        return $this->belongsToMany('Role', 'assigned_roles_in_project');
+        return $this->belongsToMany('Role', 'assigned_roles_in_project')->withPivot('project_id');
     }
 
     /**
@@ -17,7 +17,7 @@ trait HasRole
      */
     public function projects()
     {
-        return $this->belongsToMany('Project', 'assigned_roles_in_project');
+        return $this->belongsToMany('Project', 'assigned_roles_in_project')->withPivot('role_id');
     }
 
     /**
