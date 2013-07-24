@@ -55,17 +55,13 @@ trait HasRole
     **/
     public function hasRoleOnProject($roleName,$projectName)
     {
-        foreach ($this->projects as $project) {
-            if ($project->name == $projectName) {
-                $roleId = $project->pivot->role_id;
-                $role = EntrustRole::find($roleId);
-                if ($role->name == $roleName) {
-                    return true;
-                }
-            }
+        $role = $this->getRoleForUser($projectName);
+        
+        if ($role->name == $roleName) {
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
 
     }// END function hasRoleOnProject
 
@@ -91,30 +87,35 @@ trait HasRole
     }
 
     /**
-     * Check if user has a permission by its name
+     * Check if user has a permission on a project by their 
+     * names (i.e. permission and project names)
      *
      * @param string $permission Permission string.
+     * @param string $projectName Project name string.
      *
      * @access public
      *
      * @return boolean
      */
-    public function can( $permission )
+    public function can( $permission, $projectName )
     {
-        foreach ($this->roles as $role) {
+
+        $role = $this->getRoleForUser($projectName);
+        
+        //foreach ($this->roles as $role) {
             // Validate against the Permission table
             foreach($role->perms as $perm) {
                 if($perm->name == $permission) {
                     return true;
                 }
             }
-
+            
             // Deprecated permission value within the role table.
-            if( is_array($role->permissions) && in_array($permission, $role->permissions) )
+            /*if( is_array($role->permissions) && in_array($permission, $role->permissions) )
             {
                 return true;
-            }
-        }
+            }*/
+        //}
 
         return false;
     }
@@ -233,5 +234,28 @@ trait HasRole
             $role = $role['id'];
 
         $this->roles()->detach( $role );
+    }
+
+    /**
+     * Return Role object of User
+     *
+     * @param string $projectName
+     *
+     * @access public
+     *
+     * @return Role object or false otherwise
+     */
+    private function getRoleForUser($projectName){
+        foreach ($this->projects as $project) {
+            if ($project->name == $projectName) {
+                $roleId = $project->pivot->role_id;
+                $role = EntrustRole::find($roleId);
+
+                if(is_object($role)){
+                    return $role;
+                }
+            }
+        }
+        return false;
     }
 }
