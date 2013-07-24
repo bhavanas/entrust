@@ -101,21 +101,13 @@ trait HasRole
     {
 
         $role = $this->getRoleForUser($projectName);
-
-        //foreach ($this->roles as $role) {
-            // Validate against the Permission table
+        if (is_object($role)) {
             foreach($role->perms as $perm) {
                 if($perm->name == $permission) {
                     return true;
                 }
             }
-
-            // Deprecated permission value within the role table.
-            /*if( is_array($role->permissions) && in_array($permission, $role->permissions) )
-            {
-                return true;
-            }*/
-        //}
+        }
 
         return false;
     }

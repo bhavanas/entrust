@@ -38,7 +38,7 @@ class EntrustRole extends Ardent
         // To maintain backwards compatibility we'll catch the exception if the Permission table doesn't exist.
         // TODO remove in a future version
         try {
-            return $this->belongsToMany('Permission');
+            return $this->belongsToMany('Permission','permission_role','role_id');
         } catch(Execption $e) {}
     }
 
