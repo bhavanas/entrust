@@ -145,12 +145,12 @@ Next, with both roles created let's assign then to the users. Thanks to the `Has
 
 ```php
 $user = User::where('username','=','Zizaco')->first();
+$project = Project::where('name','=','Default')->first();
 
 /* role attach alias */
-$user->attachRole( $admin ); // Parameter can be an Role object, array or id.
+$user->attachRole( $admin, $project ); 
+// Parameters can be a Role object, array or id && Project object, array or id 
 
-/* OR the eloquent's original: */
-$user->roles()->attach( $admin->id ); // id only
 ```
 Now we just need to add permissions to those Roles.
 
