@@ -56,7 +56,7 @@ trait HasRole
     public function hasRoleOnProject($roleName,$projectName)
     {
         $role = $this->getRoleForUser($projectName);
-        
+
         if ($role->name == $roleName) {
             return true;
         } else {
@@ -87,7 +87,7 @@ trait HasRole
     }
 
     /**
-     * Check if user has a permission on a project by their 
+     * Check if user has a permission on a project by their
      * names (i.e. permission and project names)
      *
      * @param string $permission Permission string.
@@ -101,7 +101,7 @@ trait HasRole
     {
 
         $role = $this->getRoleForUser($projectName);
-        
+
         //foreach ($this->roles as $role) {
             // Validate against the Permission table
             foreach($role->perms as $perm) {
@@ -109,7 +109,7 @@ trait HasRole
                     return true;
                 }
             }
-            
+
             // Deprecated permission value within the role table.
             /*if( is_array($role->permissions) && in_array($permission, $role->permissions) )
             {
