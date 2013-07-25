@@ -91,6 +91,7 @@ trait HasRole
      * names (i.e. permission and project names)
      *
      * @param string $permission Permission string.
+     *
      * @param string $projectName Project name string.
      *
      * @access public
