@@ -238,7 +238,7 @@ trait HasRole
      *
      * @return Role object or false otherwise
      */
-    private function getRoleForUser($projectName){
+    public function getRoleForUser($projectName){
         foreach ($this->projects as $project) {
             if ($project->name == $projectName) {
                 $roleId = $project->pivot->role_id;
