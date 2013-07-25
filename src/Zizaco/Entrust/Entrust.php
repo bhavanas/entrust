@@ -27,17 +27,19 @@ class Entrust
      *
      * @param string $name Role name.
      *
+     * @param string $projectName Project name string.
+     *
      * @access public
      *
      * @return boolean
      */
-    public function hasRole( $permission )
+    public function hasRole( $permission, $projectName )
     {
         $user = $this->user();
 
         if( $user )
         {
-            return $user->hasRole( $permission );
+            return $user->hasRoleOnProject( $permission,$projectName );
         }
         else
         {
@@ -50,17 +52,19 @@ class Entrust
      *
      * @param string $permission Permission string.
      *
+     * @param string $projectName Project name string.
+     *
      * @access public
      *
      * @return boolean
      */
-    public function can( $permission )
+    public function can( $permission, $projectName )
     {
         $user = $this->user();
 
         if( $user )
         {
-            return $user->can( $permission );
+            return $user->can( $permission,$projectName );
         }
         else
         {
@@ -88,13 +92,14 @@ class Entrust
      *
      * @param string $route  Route pattern. i.e: "admin/*"
      * @param array|string $roles   The role(s) needed.
+     * @param string $projectName Project name string.
      * @param mixed $result i.e: Redirect::to('/')
      * @param bool $cumulative Must have all roles.
      * @access public
      *
      * @return void
      */
-    public function routeNeedsRole( $route, $roles, $result = null, $cumulative=true )
+    public function routeNeedsRole( $route, $roles, $projectName,$result = null, $cumulative=true )
     {
         if(!is_array($roles)) {
             $roles = array($roles);
@@ -106,7 +111,7 @@ class Entrust
             $result = function() use ($roles, $result, $cumulative) {
                 $hasARole = array();
                 foreach($roles as $role) {
-                    if ($this->hasRole($role)) {
+                    if ($this->hasRole($role,$projectName)) {
                         $hasARole[] = true;
                     } else {
                         $hasARole[] = false;
@@ -138,6 +143,7 @@ class Entrust
      *
      * @param string $route  Route pattern. i.e: "admin/*"
      * @param array|string $permissions   The permission needed.
+     * @param string $projectName Project name string.
      * @param mixed  $result i.e: Redirect::to('/')
      * @param bool $cumulative Must have all permissions
      *
@@ -145,7 +151,7 @@ class Entrust
      *
      * @return void
      */
-    public function routeNeedsPermission( $route, $permissions, $result = null, $cumulative=true )
+    public function routeNeedsPermission( $route, $permissions, $projectName, $result = null, $cumulative=true )
     {
         if(!is_array($permissions)) {
             $permissions = array($permissions);
@@ -158,7 +164,7 @@ class Entrust
             $result = function() use ($permissions, $result, $cumulative) {
                 $hasAPermission = array();
                 foreach($permissions as $permission) {
-                    if ($this->can($permission)) {
+                    if ($this->can($permission,$projectName)) {
                         $hasAPermission[] = true;
                     } else {
                         $hasAPermission[] = false;
